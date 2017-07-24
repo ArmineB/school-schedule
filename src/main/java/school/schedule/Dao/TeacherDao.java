@@ -64,4 +64,25 @@ public enum TeacherDao {
         }
         return teacherId;
     }
+
+    public Teacher getTeacherNameById(Integer teacherId) {
+       Teacher teacher = null;
+        final String sql = "select FirstName, LastName, SubjectId from teacher where TeacherId= ?";
+        try {
+            PreparedStatement preparedStatement = conn.prepareStatement(sql);
+            preparedStatement.setInt(1,teacherId);
+
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+               String firstName = resultSet.getString("FirstName");
+               String lastName = resultSet.getString("LastName");
+               Integer subjectid  = resultSet.getInt("SubjectId");
+               teacher = new Teacher(firstName, lastName, subjectid);
+            }
+        } catch (SQLException e) {
+            System.out.println("Unable to get teacherName");
+            e.printStackTrace();
+        }
+        return teacher;
+    }
 }

@@ -3,10 +3,9 @@ package school.schedule.Dao;
 
 import school.schedule.dto.Student;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
+import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Armine on 20/07/2017.
@@ -50,4 +49,28 @@ import java.sql.SQLException;
     }
 
 
+    public List<Student> loadStudents() {
+        List<Student> students = null;
+        try {
+            Statement st = conn.createStatement();
+            ResultSet resultSet = st.executeQuery("SELECT FirstName, LastName, ClassId FROM student");
+
+            students = new ArrayList<>();
+
+            while (resultSet.next()) {
+                String firstName = resultSet.getString("FirstName");
+                String lastName = resultSet.getString("LastName");
+                Integer classId = resultSet.getInt("ClassId");
+                Student student = new Student(firstName, lastName, classId);
+
+                students.add(student);
+            }
+
+        } catch (SQLException e) {
+            System.out.println("Unable to get students");
+            e.printStackTrace();
+        }
+
+        return students;
+    }
 }

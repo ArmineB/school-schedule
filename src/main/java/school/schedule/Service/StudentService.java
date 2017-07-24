@@ -5,6 +5,8 @@ import school.schedule.Dao.ClassDao;
 import school.schedule.Dao.StudentDao;
 import school.schedule.dto.Student;
 
+
+
 /**
  * Created by Armine on 20/07/2017.
  */
@@ -19,5 +21,12 @@ public class StudentService {
         Student student = new Student(firstName, lastName,classDao.getClassIdByClassNumber(clazz));
         studentDao.add(student);
 
+    }
+
+    public void getStudents() {
+        for(Student student : studentDao.loadStudents()){
+            System.out.println(student.getFirstName() + " " +
+                    student.getLastName() + ", "  + classDao.getClassNumberById(student.getClassId()) + " Class");
+        }
     }
 }

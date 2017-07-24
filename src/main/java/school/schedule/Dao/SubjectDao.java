@@ -46,5 +46,22 @@ public enum  SubjectDao {
         return subjectId;
     }
 
+    public String getSubjectNameById(Integer id){
+        String subjectName = null;
+        final String sql = "SELECT Name FROM subject where SubjectId= ?";
+        try {
+            PreparedStatement preparedStatement = conn.prepareStatement(sql);
+            preparedStatement.setInt(1,id);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                subjectName = resultSet.getString("Name");
+            }
+        } catch (SQLException e) {
+            System.out.println("Unable to get subjectName");
+            e.printStackTrace();
+        }
+        return subjectName;
+    }
+
 
 }

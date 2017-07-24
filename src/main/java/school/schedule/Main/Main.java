@@ -3,6 +3,7 @@ package school.schedule.Main;
 import school.schedule.Service.ScheduleService;
 import school.schedule.Service.StudentService;
 import school.schedule.Service.TeacherService;
+import school.schedule.dto.Student;
 
 import java.util.Scanner;
 
@@ -20,8 +21,12 @@ public class Main {
 
 
 
-        while (true){
-            System.out.println("for adding student press 1, for adding teacher press 2, for adding schedule press 3, for quite press 4 ");
+      LOOP:  while (true){
+            System.out.println("for adding student enter 1," +
+                    " for adding teacher enter 2, " +
+                    "for adding schedule enter 3, for getting students enter 4 " +
+                    "for getting schedules enter 5 " +
+                    "for quite enter 6");
             String command = scanner.next();
             switch (command){
                 case "1" : addStudent();
@@ -30,10 +35,26 @@ public class Main {
                            break;
                 case "3" : addSchedule();
                            break;
+                case "4" : getStudents();
+                           break;
+                case "5" : getSchedules();
+                           break;
+                case "6" :
+                    System.out.println("Bye");
+                    break LOOP;
+
             }
         }
 
 
+    }
+
+    private static void getSchedules() {
+        scheduleService.getSchedules();
+    }
+
+    private static void getStudents() {
+       studentService.getStudents();
     }
 
     private static void addSchedule() {

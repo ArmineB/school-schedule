@@ -7,10 +7,8 @@ import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.stereotype.Repository;
 import school.schedule.dto.Schedule;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
+import java.sql.*;
+import java.util.List;
 
 /**
  * Created by Armine on 20/07/2017.
@@ -52,5 +50,26 @@ public enum  ScheduleDao {
             System.out.println("Unable to add schedule");
             e.printStackTrace();
         }
+    }
+
+    public Schedule getScheduleByClassId(Integer classId) {
+        Schedule schedule = null;
+        final String sql = "SELECT TeacherId, LessonTime FROM schedule WHERE ClassId= ?";
+        try {
+            PreparedStatement preparedStatement = conn.prepareStatement(sql);
+            preparedStatement.setInt(1, classId);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                Integer teacherId = resultSet.getInt("TeacherId");
+                Integer lessonTime = resultSet.getInt("LessonTime");
+
+              schedule = new Schedule(classId, teacherId, lessonTime);
+
+            }
+        } catch (SQLException e) {
+            System.out.println("Unable to get schedule");
+            e.printStackTrace();
+        }
+        return schedule;
     }
 }
